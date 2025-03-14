@@ -35,7 +35,7 @@
                         </svg>
                     </div>
                 </a>
-                
+
                 <a href="d">
                     <div class="header-notification-block">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -45,10 +45,12 @@
                         </svg>
                     </div>
                 </a>
-                
-                <button type="button" class="btn btn-primary login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+
+                <button type="button" class="btn btn-primary login-btn" data-bs-toggle="modal"
+                    data-bs-target="#loginModal">
                     로그인
                 </button>
+
                 <!-- loginModal -->
                 <div class="modal" id="loginModal">
                     <div class="modal-dialog">
@@ -79,14 +81,56 @@
                             </div>
 
                             <!-- Modal footer -->
-                             <span style="display: flex; left: 100%;">아직 회원이 아니신가요? 
-                                <a href="" class="modal-signup">회원가입</a>
-                             </span>
-                            
+
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                                    Close
+                                <span style="display: flex; left: 100%;">아직 회원이 아니신가요?
+                                    <a class="nav-link active" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#signupModal">회원가입</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- signupModal -->
+                <div class="modal" id="signupModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">회원가입</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal">닫기</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="mb-3 mt-3">
+                                    <label for="nickname" class="form-label">Nickname:</label>
+                                    <input type="text" class="form-control" id="nickname" placeholder="Enter nickname"
+                                        name="nickname" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email:</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter email"
+                                        name="email" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pwd" class="form-label">Password:</label>
+                                    <input type="password" class="form-control" id="pwd" placeholder="Enter password"
+                                        name="pswd" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" id="signupBtn">
+                                    가입
                                 </button>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <span style="display: flex; left: 100%;">회원 이신가요?
+                                    <a class="nav-link active" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#loginModal">로그인</a>
+                                </span>
                             </div>
                         </div>
                     </div>
