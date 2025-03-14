@@ -4,7 +4,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+a{
+    text-decoration: none !important;
+}
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
@@ -36,6 +38,18 @@ body {
 }
 
 .header-notification-block svg {
+    width: 24px;
+    height: 24px;
+    color: #555;
+}
+
+.header-search-block svg {
+    width: 24px;
+    height: 24px;
+    color: #555;
+}
+
+.HomeTab_extra__x0Vmq{
     width: 24px;
     height: 24px;
     color: #555;
@@ -182,4 +196,14 @@ body {
     height: 24px;
     border-radius: 50%;
     margin-right: 8px;
+}
+
+.modal-signup{
+    text-decoration: none;
+}
+
+.login-btn{
+    border-radius: 30px !important;
+    background-color: black !important;
+    border-color: black !important;
 }
