@@ -1,0 +1,185 @@
+/* 기본 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* 헤더 스타일 */
+.header-block {
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 20px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-logo-block svg {
+    color: #000;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-notification-block svg {
+    width: 24px;
+    height: 24px;
+    color: #555;
+}
+
+.button-block {
+    background-color: #12b886;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button-block:hover {
+    background-color: #0fa77d;
+}
+
+/* 네비게이션 스타일 */
+.nav-container {
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 20px;
+}
+
+.nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-logo img {
+    height: 24px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background-color: #f1f3f5;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-actions img {
+    width: 24px;
+    height: 24px;
+}
+
+.nav-login {
+    background-color: #12b886;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.nav-login:hover {
+    background-color: #0fa77d;
+}
+
+
+/* 게시글 카드 스타일 */
+.postCardGrid-block {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.postCard-block {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.postCard-block:hover {
+    transform: translateY(-5px);
+}
+
+.image-block img {
+    width: 100%;
+    height: auto;
+}
+
+.postCard-content {
+    padding: 15px;
+}
+
+.postCard-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+}
+
+.postCard-des {
+    color: #555;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.postCard-subinfo {
+    font-size: 12px;
+    color: #777;
+    margin-top: 10px;
+}
+
+.postCard-footer {
+    padding: 10px 15px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+}
+
+.postCard-userInfo img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
