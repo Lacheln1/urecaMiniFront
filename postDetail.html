@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 상세보기</title>
+    <link rel="stylesheet" href="/css/postDetail.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="/js/postDetail.js"></script>
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">Logo</div>
+    <button class="login-btn">로그인</button>
+</header>
+
+<main class="post-container" data-post-id="${post.id}" data-username="${post.author}">
+    <h1 class="post-title">${post.title}</h1>
+    
+    <div class="post-meta">
+        <span class="author">${post.author}</span> · 
+        <span class="created-date">${post.createdAt}</span>
+    </div>
+
+    <div class="tags">
+        <c:forEach var="tag" items="${tags}">
+            <span class="tag">${tag}</span>
+        </c:forEach>
+    </div>
+
+    <div class="like-section">
+        <button class="like-btn">👍 ${post.likes}</button>
+        <button class="follow-btn">팔로우</button>
+    </div>
+
+    <div class="post-content">
+        <img src="${post.imageUrl}" alt="포스트 이미지">
+        <p>${post.content}</p>
+    </div>
+</main>
+
+</body>
+</html>
