@@ -1,10 +1,11 @@
 window.onload = async () => {
-  let response = await axios.get("");
+  let response = await axios.get("http://localhost:8080/getAllPosts");
   console.log(response);
   let postList = response.data;
+  console.log(postList.title);
   let postListDiv = ``;
 
-  postListDiv.forEach((item) => {
+  postList.forEach((item) => {
     postListDiv += `
         <style>/* 게시글 카드 스타일 */
 .postCardGrid-block {
@@ -85,13 +86,13 @@ window.onload = async () => {
                     </a>
                     <div class="postCard-content" style="padding: 15px;">
                         <a href="">
-                            <h4 class="postCard-title">글제목</h4>
+                            <h4 class="postCard-title">${item.title}</h4>
                             <div class="postCard-descriptionWrapper">
                                 <p class="postCard-des">글 요약</p>
                             </div>
                         </a>
                         <div class="postCard-subinfo">
-                            <span>작성 시간</span>
+                            <span>${item.createdAt}</span>
                             <span class="postCard-separator">-</span>
                             <span>n개의 댓글</span>
                         </div>
