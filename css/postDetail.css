@@ -1,0 +1,98 @@
+/* 기본 스타일 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+/* 헤더 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.login-btn {
+    background-color: black;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 본문 컨테이너 */
+.post-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 */
+.post-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 작성자, 날짜 */
+.post-meta {
+    color: gray;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* 태그 */
+.tags {
+    margin-bottom: 20px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #e8e8e8;
+    color: #333;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+/* 좋아요 & 팔로우 버튼 */
+.like-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.like-btn, .follow-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* 본문 */
+.post-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.post-content p {
+    line-height: 1.6;
+    font-size: 16px;
+}
