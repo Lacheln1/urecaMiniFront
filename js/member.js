@@ -81,7 +81,7 @@ async function loginMember() {
             updateUIAfterLogin(response.data.username);
             closeModal("#loginModal");
             
-        document.getElementById("newPostBtn").innerHTML=`<button>새 글 작성</button>`
+        document.getElementById("postBtnLayout").innerHTML=`<button id ="newPostBtn" onclick="">새 글 작성</button>`
 
         } else {
             alert("로그인 실패");
@@ -105,6 +105,8 @@ function checkLoginStatus() {
 
 
 function updateUIAfterLogin(username) {
+    const newPostBtnLayout = document.getElementById("postBtnLayout");
+    
     const authContainer = document.getElementById("authContainer");
     authContainer.innerHTML = "";
 
@@ -120,6 +122,12 @@ function updateUIAfterLogin(username) {
         </ul>
     `;
     authContainer.appendChild(userDropdown);
+    newPostBtnLayout.innerHTML=`<button id ="newPostBtn">새 글 작성</button>`;
+    document.getElementById("newPostBtn").addEventListener("click", () => {
+        window.location.href = "../writePost.html";
+    });
+
+    
 
     // 로그아웃 버튼 이벤트 추가
     document.getElementById("logoutBtn").addEventListener("click", logoutMember);
