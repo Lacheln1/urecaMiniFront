@@ -7,6 +7,7 @@ async function registerMember() {
     const nickname = document.getElementById("nickname").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("pwd").value;
+    const checkPassword = document.getElementById("checkpwd").value;
 
     if (!name || !nickname || !email || !password) {
         alert("모든 필드를 입력해주세요.");
@@ -15,6 +16,11 @@ async function registerMember() {
 
     if (!isValidPassword(password)) {
         alert("비밀번호는 최소 8자 이상, 대문자 1개 포함해야 합니다.");
+        return;
+    }
+
+    if(password!=checkPassword){
+        alert("비밀번호가 일치하지 않습니다.");
         return;
     }
 
@@ -34,6 +40,7 @@ async function registerMember() {
 
         if (response.status === 200) {
             alert("회원가입 성공!");
+            signupModal.hide();
         } else {
             alert("회원가입 실패: " + JSON.stringify(response.data));
         }
