@@ -16,27 +16,33 @@
 </header>
 
 <main class="post-container" data-post-id="${post.id}" data-username="${post.author}">
-    <h1 class="post-title">${post.title}</h1>
+    <h1 class="post-title"></h1>
     
-    <div class="post-meta">
-        <span class="author">${post.author}</span> · 
-        <span class="created-date">${post.createdAt}</span>
+    <div class="postSubInfoBlock" style="display: flex; justify-content:space-between">
+        <div class="post-meta">
+            <span class="author"></span> ·
+            <span class="created-date"></span>
+        </div>
+        <div class="edit-block">
+            <span class="edit-layout"></span>
+            <span class="delete-layout"></span>
+        </div>
     </div>
 
     <div class="tags">
         <c:forEach var="tag" items="${tags}">
-            <span class="tag">${tag}</span>
+            <span class="tag"></span>
         </c:forEach>
     </div>
 
     <div class="like-section">
-        <button class="like-btn">👍 ${post.likes}</button>
+        <button class="like-btn">👍</button>
         <button class="follow-btn">팔로우</button>
     </div>
 
     <div class="post-content">
         <img src="${post.imageUrl}" alt="포스트 이미지">
-        <p>${post.content}</p>
+        <p></p>
     </div>
 </main>
 

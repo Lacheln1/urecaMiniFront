@@ -85,14 +85,14 @@ window.onload = async () => {
                         </div>
                     </a>
                     <div class="postCard-content" style="padding: 15px;">
-                        <a href="">
+                        <a href="/postDetail.html?id=${item.id}">
                             <h4 class="postCard-title">${item.title}</h4>
                             <div class="postCard-descriptionWrapper">
                                 <p class="postCard-des">${item.content.substring(0, 50)}</p>
                             </div>
                         </a>
                         <div class="postCard-subinfo">
-                            <span>${new Date(item.createdAt).toLocaleDateString()}</span>
+                            <span>${item.createdAt.substring(0,10)} ${item.createdAt.substring(11,16)}</span>
                             <span class="postCard-separator">-</span>
                             <span>n개의 댓글</span>
                         </div>
@@ -100,7 +100,7 @@ window.onload = async () => {
                     <div class="postCard-footer">
                         <a href="" class="postCard-userInfo">
                             <img src="" alt="사용자 프로필 사진">
-                            <span>by <b>닉네임</b>
+                            <span>by <b>${item.username}</b>
                             </span>
                         </a>
                     </div>
