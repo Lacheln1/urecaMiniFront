@@ -81,7 +81,6 @@ async function loginMember() {
             updateUIAfterLogin(response.data.username);
             closeModal("#loginModal");
             
-        document.getElementById("postBtnLayout").innerHTML=`<button id ="newPostBtn" onclick="">새 글 작성</button>`
 
         } else {
             alert("로그인 실패");
