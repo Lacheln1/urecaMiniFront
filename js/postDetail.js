@@ -120,5 +120,19 @@ window.onload = async () => {
         window.location.href = "/";
     }
 
+    //좋아요 기능
+    const likeBtn = document.querySelector(".like-btn");
+
+    likeBtn.addEventListener("click",async ()=>{
+        try {
+            await axios.post(`http://localhost:8080/${postId}/like`);
+            let currentLikes = parseInt(likeBtn.textContent.split(" ")[1]) || 0;
+            likeBtn.textContent = `👍 ${currentLikes + 1}`;
+        } catch (error) {
+            onsole.error("좋아요 요청 오류:", error);
+            alert("좋아요 요청 중 오류 발생");
+        }
+    } )
+
 
 };
