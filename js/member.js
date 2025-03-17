@@ -80,6 +80,8 @@ async function loginMember() {
 
             updateUIAfterLogin(response.data.username);
             closeModal("#loginModal");
+            
+        document.getElementById("postBtnLayout").innerHTML=`<button id ="newPostBtn" onclick="">새 글 작성</button>`
 
         } else {
             alert("로그인 실패");
@@ -103,8 +105,9 @@ function checkLoginStatus() {
 
 
 function updateUIAfterLogin(username) {
+    const newPostBtnLayout = document.getElementById("postBtnLayout");
+    
     const authContainer = document.getElementById("authContainer");
-
     authContainer.innerHTML = "";
 
     const userDropdown = document.createElement("div");
@@ -118,8 +121,13 @@ function updateUIAfterLogin(username) {
             <li><button class="dropdown-item" id="logoutBtn">로그아웃</button></li>
         </ul>
     `;
-
     authContainer.appendChild(userDropdown);
+    newPostBtnLayout.innerHTML=`<button id ="newPostBtn">새 글 작성</button>`;
+    document.getElementById("newPostBtn").addEventListener("click", () => {
+        window.location.href = "../writePost.html";
+    });
+
+    
 
     // 로그아웃 버튼 이벤트 추가
     document.getElementById("logoutBtn").addEventListener("click", logoutMember);
@@ -141,8 +149,8 @@ async function logoutMember() {
         //  UI 변경 (다시 로그인 버튼으로 복구)
         restoreLoginButton();
         alert("로그아웃 되었습니다.");
-
         removeDarkOverlay();
+        window.location.reload();
 
     } catch (error) {
         console.error("로그아웃 오류:", error);

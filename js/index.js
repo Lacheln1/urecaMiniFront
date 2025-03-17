@@ -78,8 +78,8 @@ window.onload = async () => {
     background-color: black !important;
     border-color: black !important;
 }</style>
-        <li class="postCard-block" style="background: white;border-radius: 8px;overflow: hidden;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);transition: transform 0.2s ease-in-out;">
-                    <a href="" class="postCard-style-link">
+        <li class="postCard-block" style="background: white;border-radius: 8px;overflow: hidden;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);transition: transform 0.2s ease-in-out;" >
+                    <a href="/postDetail.html?id=${item.id}" class="postCard-style-link">
                         <div class="image-block" style ="width: 100%; height: auto;">
                             <img src="./images/0afaeaf5-ac0c-49c5-b09e-719b72352559_image.png" alt="게시글 썸네일">
                         </div>
@@ -88,11 +88,11 @@ window.onload = async () => {
                         <a href="">
                             <h4 class="postCard-title">${item.title}</h4>
                             <div class="postCard-descriptionWrapper">
-                                <p class="postCard-des">글 요약</p>
+                                <p class="postCard-des">${item.content.substring(0, 50)}</p>
                             </div>
                         </a>
                         <div class="postCard-subinfo">
-                            <span>${item.createdAt}</span>
+                            <span>${new Date(item.createdAt).toLocaleDateString()}</span>
                             <span class="postCard-separator">-</span>
                             <span>n개의 댓글</span>
                         </div>
