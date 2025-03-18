@@ -43,7 +43,7 @@ window.onload = async () => {
     document.getElementById("cancelBtn").addEventListener("click",async ()=>{
         const checkCancel = confirm("작성을 그만두고 나가시겠습니까?");
         if(checkCancel==true){
-            window.location.href = "/";
+            window.history.back();
         }
     })
 };

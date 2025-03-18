@@ -69,6 +69,9 @@ window.onload = async () => {
         
             editBtn.textContent = "수정";
             deleteBtn.textContent = "삭제";
+
+            editBtn.classList.add("edit-btn");
+            deleteBtn.classList.add("delete-btn");
         
             // editLayout과 deleteLayout이 존재하는지 확인 후 추가
             if (editLayout.length > 0) {
