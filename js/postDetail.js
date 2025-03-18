@@ -44,7 +44,7 @@
 
 
 window.onload = async () => {
-    // 1️⃣ 현재 URL에서 `id` 가져오기
+    // 현재 URL에서 `id` 가져오기
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get("id");
     const username = localStorage.getItem("username");
@@ -55,7 +55,7 @@ window.onload = async () => {
     }
 
     try {
-        // 2️⃣ API 호출 (게시글 상세 정보 불러오기)
+        //API 호출 (게시글 상세 정보 불러오기)
         let response = await axios.get(`http://localhost:8080/getPostDetail/${postId}`);
         let post = response.data;
 
@@ -69,6 +69,9 @@ window.onload = async () => {
         
             editBtn.textContent = "수정";
             deleteBtn.textContent = "삭제";
+
+            editBtn.classList.add("edit-btn");
+            deleteBtn.classList.add("delete-btn");
         
             // editLayout과 deleteLayout이 존재하는지 확인 후 추가
             if (editLayout.length > 0) {
@@ -93,7 +96,7 @@ window.onload = async () => {
             })
         }
 
-        // 3️⃣ HTML 요소에 데이터 넣기
+        //HTML 요소에 데이터 넣기
         document.querySelector(".post-title").textContent = post.title;
         document.querySelector(".author").textContent = post.username;
         document.querySelector(".created-date").textContent = new Date(post.createdAt).toLocaleDateString();
@@ -102,7 +105,7 @@ window.onload = async () => {
         document.querySelector(".post-content p").textContent = post.content;
         
 
-        // 4️⃣ 태그 추가
+        //태그 추가
         let tagContainer = document.querySelector(".tags");
         tagContainer.innerHTML = "";
         if (post.tags) {
