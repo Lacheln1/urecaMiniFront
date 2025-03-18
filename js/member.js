@@ -121,7 +121,7 @@ function updateUIAfterLogin(username) {
         </ul>
     `;
     authContainer.appendChild(userDropdown);
-    newPostBtnLayout.innerHTML=`<button id ="newPostBtn">새 글 작성</button>`;
+    newPostBtnLayout.innerHTML=`<button id ="newPostBtn" class = "btn" style="border:1px solid #000">새 글 작성</button>`;
     document.getElementById("newPostBtn").addEventListener("click", () => {
         window.location.href = "../writePost.html";
     });
