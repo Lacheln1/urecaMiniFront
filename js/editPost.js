@@ -38,11 +38,13 @@ window.onload = async () => {
         } catch(error){
             alert("발간 실패하였습니다",error);
         }
-       
-    
-    
-    
     })
 
+    document.getElementById("cancelBtn").addEventListener("click",async ()=>{
+        const checkCancel = confirm("작성을 그만두고 나가시겠습니까?");
+        if(checkCancel==true){
+            window.location.href = "/";
+        }
+    })
 };
 

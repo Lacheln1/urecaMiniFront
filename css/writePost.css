@@ -44,7 +44,7 @@ body {
  .btn-block{
     max-width: 800px;
     margin: 50px auto;
-    padding-left: 40px;
+
     border-radius: 8px;
     
     
@@ -53,11 +53,35 @@ body {
 }
 
 #postBtn{
-    width: 70px;
+    background-color: rgb(63, 216, 132);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 100px;
     height: 40px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+#postBtn:hover{
+    cursor: pointer;
+    background-color: rgb(93, 241, 160);
 }
 
 #cancelBtn{
-    width: 80px;
+    color:  rgb(63, 216, 132);
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 100px;
+    font-weight: bold;
+    font-size: 19px;
     margin-right: 30px;
+    border: none;
+    background-color: transparent;
+    border-radius: 5px;
+}
+
+#cancelBtn:hover{
+    cursor: pointer;
+    background-color: #dee0e0;
 }
