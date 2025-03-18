@@ -1,94 +1,195 @@
 /* 기본 스타일 */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
     margin: 0;
     padding: 0;
-    background: #f5f5f5;
 }
 
+/* 헤더 스타일 */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #fff;
-    padding: 10px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
 }
 
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.write-btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 프로필 컨테이너 */
 .profile-container {
-    width: 60%;
+    max-width: 700px;
     margin: 20px auto;
-    background: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* 프로필 카드 */
 .profile-card {
-    text-align: center;
+    background: white;
+    border-radius: 10px;
     padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-img {
+    text-align: center;
 }
 
 .profile-img img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
 }
 
-button {
-    margin: 10px 5px;
-    padding: 8px 15px;
+.profile-img button {
+    display: block;
+    margin: 5px auto;
+    padding: 5px 10px;
+    font-size: 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-button:hover {
-    opacity: 0.8;
-}
-
-#uploadBtn, #removeBtn {
-    background: #007bff;
-    color: #fff;
-}
-
-#editProfileBtn {
-    background: #28a745;
+#uploadBtn {
+    background-color: #22c55e;
     color: white;
 }
 
-.edit-section {
-    margin-top: 10px;
+#removeBtn {
+    background-color: #ef4444;
+    color: white;
 }
 
+/* 프로필 정보 */
+.profile-info h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.profile-info p {
+    color: gray;
+    font-size: 14px;
+}
+
+/* 설정 섹션 */
+.settings {
+    margin-top: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.setting-item {
+    margin-bottom: 15px;
+}
+
+.setting-item h3 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.setting-item p {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* 입력 필드 스타일 */
+.edit-input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* 버튼 스타일 */
+.edit-btn, .save-btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.save-btn {
+    background-color: #22c55e;
+}
+
+/* 숨김 클래스 */
 .hidden {
     display: none;
 }
 
-/* 설정 스타일 */
-.settings {
-    margin-top: 20px;
+/* 모달 스타일 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.setting-item {
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
 }
 
-.theme-options button {
-    background: #ddd;
-    padding: 10px;
-    border-radius: 50%;
-    margin: 5px;
+.modal input {
+    width: 90%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.modal button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-.theme-btn.active {
-    background: black;
+#password-confirm-btn, #password-change-btn {
+    background-color: #3b82f6;
     color: white;
 }
 
-.delete-btn {
-    background: red;
+button[onclick^="closeModal"] {
+    background-color: #ef4444;
     color: white;
 }
+

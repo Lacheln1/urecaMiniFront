@@ -9,63 +9,102 @@
 <body>
 
     <header class="header">
-        <h1>velog</h1>
+        <h1 class="logo">velog</h1>
         <button class="write-btn">새 글 작성</button>
     </header>
 
     <main class="profile-container">
         <div class="profile-card">
             <div class="profile-img">
-                <img src="default-profile.png" alt="프로필 이미지" id="profileImage">
+                <img src="images/no-intro.png" alt="프로필 이미지" id="profileImage">
                 <button id="uploadBtn">이미지 업로드</button>
                 <button id="removeBtn">이미지 제거</button>
             </div>
             
             <div class="profile-info">
-                <h2 id="username">사용자 이름</h2>
-                <p id="bio">안녕하세요!</p>
-                <button id="editProfileBtn">수정</button>
-            </div>
-
-            <div class="edit-section hidden">
-                <input type="text" id="editUsername" placeholder="이름 입력">
-                <input type="text" id="editBio" placeholder="한 줄 소개">
-                <button id="saveBtn">저장</button>
+                <h2>
+                    <span id="username">사용자 이름</span>
+                    <input type="text" id="edit-username" class="edit-input hidden">
+                    <button class="edit-btn" data-target="username">수정</button>
+                    <button class="save-btn hidden" data-target="username">저장</button>
+                </h2>
+                <p>
+                    <span id="bio">안녕하세요!</span>
+                    <input type="text" id="edit-bio" class="edit-input hidden">
+                    <button class="edit-btn" data-target="bio">수정</button>
+                    <button class="save-btn hidden" data-target="bio">저장</button>
+                </p>
             </div>
         </div>
 
         <section class="settings">
             <div class="setting-item">
+                <h3>벨로그 제목</h3>
+                <p id="blogTitle">example.log</p>
+            </div>
+
+            <div class="setting-item">
                 <h3>이메일 주소</h3>
-                <p id="email">example@naver.com</p>
-                <button id="changeEmailBtn">변경</button>
-            </div>
-
-            <div class="setting-item">
-                <h3>이메일 수신 설정</h3>
-                <label>
-                    <input type="checkbox" id="commentNotification"> 댓글 알림
-                </label>
-                <label>
-                    <input type="checkbox" id="updateNotification"> 업데이트 소식
-                </label>
-            </div>
-
-            <div class="setting-item">
-                <h3>테마</h3>
-                <div class="theme-options">
-                    <button class="theme-btn light active">☀️</button>
-                    <button class="theme-btn dark">🌙</button>
+                <div class="input-group">
+                    <p>
+                        <span id="email">example@example.com</span>
+                        <input type="text" id="edit-email" class="edit-input hidden">
+                        <button class="edit-btn" data-target="email">변경</button>
+                        <button class="save-btn hidden" data-target="email">저장</button>
+                    </p>
                 </div>
             </div>
 
             <div class="setting-item">
-                <h3>회원 탈퇴</h3>
-                <button id="deleteAccountBtn" class="delete-btn">회원 탈퇴</button>
+                <h3>소셜 정보</h3>
+                <div id="socialInfoText">
+                    <p id="github-text">Github: 없음</p>
+                    <p id="twitter-text">Twitter: 없음</p>
+                    <p id="website-text">Website: 없음</p>
+                    <button id="editSocialInfo">수정</button>
+                </div>
+            
+                <div id="socialInputs" class="hidden"></div>
+
+                <h3>비밀번호 변경</h3>
+                <button class="edit-btn" onclick="openModal('password-change-modal')">비밀번호 변경</button>
             </div>
+            
+
+
+            
         </section>
     </main>
 
+
+    <!-- 비밀번호 변경 모달-->
+    <div class="setting-item">
+        <div id="password-change-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>비밀번호 변경</h2>
+                <input type="password" id="current-password" placeholder="현재 비밀번호 입력">
+                <input type="password" id="new-password" placeholder="새 비밀번호 입력">
+                <input type="password" id="confirm-new-password" placeholder="새 비밀번호 확인">
+                <button id="password-change-btn">비밀번호 변경</button>
+                <button onclick="closeModal('password-change-modal')">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ 비밀번호 확인 모달 (이메일 변경 시 사용) -->
+    <div id="password-confirm-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>비밀번호 확인</h2>
+            <input type="password" id="password-confirm-input" placeholder="현재 비밀번호 입력">
+            <button id="password-confirm-btn">확인</button>
+            <button onclick="closeModal('password-confirm-modal')">취소</button>
+        </div>
+    </div>
+
+
+
+
     <script src="js/profile.js"></script>
+
 </body>
 </html>
