@@ -80,6 +80,7 @@ async function loginMember() {
 
             updateUIAfterLogin(response.data.username);
             closeModal("#loginModal");
+            window.location.reload();
             
 
         } else {
