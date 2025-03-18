@@ -96,3 +96,15 @@ body {
     line-height: 1.6;
     font-size: 16px;
 }
+
+.edit-btn {
+    background-color:transparent; 
+    border: none;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background-color:transparent;
+    border: none;
+    cursor: pointer;
+}
