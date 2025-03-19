@@ -29,7 +29,7 @@ window.onload = async () => {
                     </div>
                     <div class="postCard-footer">
                         <a href="" class="postCard-userInfo">
-                            <img src="${item.profile_image}" alt="사용자 프로필 사진">
+                            <img src="../images/${item.profileImage}" alt="사용자 프로필 사진">
                             <span>by <b>${item.username}</b>
                             </span>
                         </a>
