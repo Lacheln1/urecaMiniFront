@@ -72,7 +72,12 @@ async function loginMember() {
     try {
         const response = await axios.post("http://localhost:8080/api/members/login", { email, password });
 
-        if (response.status === 200) {
+        console.log("✅ 서버 응답:", response);  // 🚀 응답 확인
+
+        // 🔹 JWT 토큰 유효성 검사
+        const isJwtToken = response.data.token && response.data.token.split('.').length === 3;
+
+        if (response.status === 200 && isJwtToken) {
             alert("로그인 성공!");
             localStorage.setItem("jwtToken", JSON.stringify(response.data.token));
             localStorage.setItem("email", response.data.email);
@@ -81,18 +86,30 @@ async function loginMember() {
             updateUIAfterLogin(response.data.username);
             closeModal("#loginModal");
             window.location.reload();
-            
-
         } else {
-            alert("로그인 실패");
+            alert("로그인 실패: 이메일 또는 비밀번호가 올바르지 않습니다.");
         }
     } catch (error) {
-        alert("로그인 실패: " + error.response?.data || "서버 오류");
+        console.error("로그인 오류:", error);
+
+        if (error.response && error.response.data) {
+            const errorMessage = error.response.data.errorMessage || error.response.data.token || "서버 오류";
+
+            if (errorMessage.includes("로그인 차단됨")) {
+                alert(errorMessage);  // 로그인 차단 메시지 표시
+            } else {
+                alert("로그인 실패: " + errorMessage);
+            }
+        } else {
+            alert("로그인 실패: 서버 오류");
+        }
     }
 }
 
+
+
 function checkLoginStatus() {
-    const token = JSON.parse(localStorage.getItem("jwtToken")); //JSON.parse() 적용
+    const token = localStorage.getItem("jwtToken"); //JSON.parse() 적용
     const username = localStorage.getItem("username");
 
     console.log("로그인 상태 확인 - token:", token, "username:", username);
