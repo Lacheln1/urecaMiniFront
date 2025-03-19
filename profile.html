@@ -9,7 +9,9 @@
 <body>
 
     <header class="header">
+        <a href = "index.html">
         <h1 class="logo">velog</h1>
+        </a>
         <button class="write-btn">새 글 작성</button>
     </header>
 
@@ -58,17 +60,20 @@
             <div class="setting-item">
                 <h3>소셜 정보</h3>
                 <div id="socialInfoText">
-                    <p id="github-text">Github: 없음</p>
-                    <p id="twitter-text">Twitter: 없음</p>
-                    <p id="website-text">Website: 없음</p>
+                    <p class="github-text"><span class="github-text">Github: 없음</span></p>
+                    <p class="twitter-text"><span class="twitter-text">Twitter: 없음</span></p>
+                    <p class="website-text"><span class="website-text">Website: 없음</span></p>
                     <button class = "edit-btn" id="editSocialInfo">수정</button>
                 </div>
             
                 <div id="socialInputs" class="hidden"></div>
-
+            </div>
+            
+            <div id="password-change-container" class="setting-item">
                 <h3>비밀번호 변경</h3>
                 <button class="edit-btn" onclick="openModal('password-change-modal')">비밀번호 변경</button>
             </div>
+
             
 
 
@@ -91,7 +96,7 @@
         </div>
     </div>
 
-    <!-- ✅ 비밀번호 확인 모달 (이메일 변경 시 사용) -->
+    <!--  비밀번호 확인 모달 (이메일 변경 시 사용) -->
     <div id="password-confirm-modal" class="modal hidden">
         <div class="modal-content">
             <h2>비밀번호 확인</h2>
