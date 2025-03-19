@@ -80,8 +80,8 @@ async function loginMember() {
 
             updateUIAfterLogin(response.data.username);
             closeModal("#loginModal");
+            window.location.reload();
             
-        document.getElementById("postBtnLayout").innerHTML=`<button id ="newPostBtn" onclick="">새 글 작성</button>`
 
         } else {
             alert("로그인 실패");
@@ -119,10 +119,11 @@ function updateUIAfterLogin(username) {
         </button>
         <ul class="dropdown-menu" aria-labelledby="userDropdownBtn">
             <li><button class="dropdown-item" id="logoutBtn">로그아웃</button></li>
+            <li><button class="dropdown-item" id="profileBtn">설정</button></li>
         </ul>
     `;
     authContainer.appendChild(userDropdown);
-    newPostBtnLayout.innerHTML=`<button id ="newPostBtn">새 글 작성</button>`;
+    newPostBtnLayout.innerHTML=`<button id ="newPostBtn" class = "btn" style="border:1px solid #000">새 글 작성</button>`;
     document.getElementById("newPostBtn").addEventListener("click", () => {
         window.location.href = "../writePost.html";
     });
@@ -131,6 +132,8 @@ function updateUIAfterLogin(username) {
 
     // 로그아웃 버튼 이벤트 추가
     document.getElementById("logoutBtn").addEventListener("click", logoutMember);
+    document.getElementById("profileBtn").addEventListener("click", function () {
+        window.location.href = "profile.html";});
 }
 
 
@@ -158,7 +161,7 @@ async function logoutMember() {
     }
 }
 
-//다시 로그인버튼 만들기기
+//다시 로그인버튼 만들기
 function restoreLoginButton() {
     const authContainer = document.getElementById("authContainer");
 
