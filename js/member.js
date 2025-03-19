@@ -11,6 +11,7 @@ async function registerMember() {
     const nickname = document.getElementById("nickname").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("pwd").value;
+    const checkPassword = document.getElementById("checkpwd").value;
 
     if (!name || !nickname || !email || !password) {
         alert("모든 필드를 입력해주세요.");
@@ -19,6 +20,11 @@ async function registerMember() {
 
     if (!isValidPassword(password)) {
         alert("비밀번호는 최소 8자 이상, 대문자 1개 포함해야 합니다.");
+        return;
+    }
+
+    if(password!=checkPassword){
+        alert("비밀번호가 일치하지 않습니다.");
         return;
     }
 
@@ -38,7 +44,9 @@ async function registerMember() {
 
         if (response.status === 200) {
             alert("회원가입 성공!");
+
             closeModal("#signupModal");
+
         } else {
             alert("회원가입 실패: " + JSON.stringify(response.data));
         }
@@ -72,6 +80,8 @@ async function loginMember() {
 
             updateUIAfterLogin(response.data.username);
             closeModal("#loginModal");
+            window.location.reload();
+            
 
         } else {
             alert("로그인 실패");
@@ -95,8 +105,9 @@ function checkLoginStatus() {
 
 
 function updateUIAfterLogin(username) {
+    const newPostBtnLayout = document.getElementById("postBtnLayout");
+    
     const authContainer = document.getElementById("authContainer");
-
     authContainer.innerHTML = "";
 
     const userDropdown = document.createElement("div");
@@ -111,8 +122,13 @@ function updateUIAfterLogin(username) {
             <li><button class="dropdown-item" id="profileBtn">설정</button></li>
         </ul>
     `;
-
     authContainer.appendChild(userDropdown);
+    newPostBtnLayout.innerHTML=`<button id ="newPostBtn" class = "btn" style="border:1px solid #000">새 글 작성</button>`;
+    document.getElementById("newPostBtn").addEventListener("click", () => {
+        window.location.href = "../writePost.html";
+    });
+
+    
 
     // 로그아웃 버튼 이벤트 추가
     document.getElementById("logoutBtn").addEventListener("click", logoutMember);
@@ -136,8 +152,8 @@ async function logoutMember() {
         //  UI 변경 (다시 로그인 버튼으로 복구)
         restoreLoginButton();
         alert("로그아웃 되었습니다.");
-
         removeDarkOverlay();
+        window.location.reload();
 
     } catch (error) {
         console.error("로그아웃 오류:", error);

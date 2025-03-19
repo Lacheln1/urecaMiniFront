@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>Velog 글 작성</title>
+    <link rel="stylesheet" href="./css/writePost.css">
+</head>
+<body>
+    <div class="container">
+        <input id="title" type="text" class="title-input" placeholder="제목을 입력하세요">
+        <textarea id="content" class="editor" placeholder="내용을 입력하세요"></textarea>
+        <input id="tag" type="text" class="tag-input" placeholder="태그를 입력하세요" tabindex="2">
+    </div>
+
+    <footer>
+        <div class="btn-block">
+            <button id="cancelBtn">나가기</button>
+            <button id="postBtn">출간하기</button>
+        </div>
+    </footer>
+    <script src="./js/post.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>
