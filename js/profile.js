@@ -17,12 +17,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             toggleEditMode(target, event.target);
         }
 
-        if (event.target.classList.contains("save-btn")) {
-            saveProfileUpdate(target, event.target);
-        }
-
         if (event.target.id === "editSocialInfo") {
             showSocialInputs();
+        }
+
+        if (event.target.id === "cancelSocialInfo") {
+            cancelSocialEdit();
         }
 
         if (event.target.id === "saveSocialInfo") {
@@ -93,7 +93,6 @@ function toggleEditMode(target, button) {
     const inputElement = document.getElementById(`edit-${target}`);
     const saveButton = document.querySelector(`.save-btn[data-target="${target}"]`);
 
-
     if (!textElement || !inputElement || !saveButton) {
         console.error("요소를 찾을 수 없음:", target);
         return;
@@ -123,6 +122,11 @@ function toggleEditMode(target, button) {
     // 비밀번호 변경 모달
     if (target === "password") {
         showPasswordChangeModal();
+        return;
+    }
+
+    if (target === "socialInfo") {
+        showSocialInputs();
         return;
     }
 }
@@ -230,27 +234,30 @@ function showSocialInputs() {
     const socialInfoText = document.getElementById("socialInfoText");
     const socialInputs = document.getElementById("socialInputs");
 
-    // 요소가 없으면 콘솔 오류 방지
-    if (!socialInfoText || !socialInputs) {
-        console.error("🚨 socialInfoText 또는 socialInputs 요소를 찾을 수 없습니다.");
-        return;
-    }
-
-    // 기존 텍스트 숨기고 입력창 보이기
+    // 기존 텍스트 숨기기
     socialInfoText.classList.add("hidden");
+
+    // 입력 필드 HTML 추가
     socialInputs.innerHTML = `
         <input type="text" id="edit-github" placeholder="Github 계정">
         <input type="text" id="edit-twitter" placeholder="Twitter 계정">
         <input type="text" id="edit-website" placeholder="Website">
-        <button id="saveSocialInfo">저장</button>
+        <div class="button-group">
+            <button id="cancelSocialInfo" class="edit-btn">취소</button>
+            <button id="saveSocialInfo" class="save-btn">저장</button>
+        </div>
+        
     `;
-    
+
     // 입력 필드 보이기
     socialInputs.classList.remove("hidden");
-
-    // 저장 버튼 이벤트 리스너 추가 (동적 추가된 요소 처리)
-    document.getElementById("saveSocialInfo").addEventListener("click", saveSocialInfo);
 }
+
+function cancelSocialEdit() {
+    document.getElementById("socialInputs").classList.add("hidden");
+    document.getElementById("socialInfoText").classList.remove("hidden");
+}
+
 
 
 function saveSocialInfo() {
@@ -288,13 +295,11 @@ function saveSocialInfo() {
             <p>Github: ${github || "없음"}</p>
             <p>Twitter: ${twitter || "없음"}</p>
             <p>Website: ${website || "없음"}</p>
-            <button id="editSocialInfo">수정</button>
+            <button id="editSocialInfo" class="edit-btn">수정</button>
         `;
 
         document.getElementById("socialInputs").classList.add("hidden");
         document.getElementById("socialInfoText").classList.remove("hidden");
-
-        document.getElementById("editSocialInfo").addEventListener("click", showSocialInputs);
     })
     .catch(error => {
         console.error("❌ 소셜 정보 업데이트 오류:", error);
@@ -445,16 +450,16 @@ function updateProfileImage(profileImageUrl) {
         return;
     }
 
-    // ✅ 서버에서 받은 URL이 상대 경로인지 확인 후 절대 경로로 변환
+    // 서버에서 받은 URL이 상대 경로인지 확인 후 절대 경로로 변환
     let imageUrl = profileImageUrl.startsWith("/uploads/")
         ? `http://localhost:8080${profileImageUrl}`
         : `http://localhost:8080/uploads/${profileImageUrl}`;
 
-    // ✅ 캐시 문제 방지 (새로운 이미지 강제 로드)
+    // 캐시 문제 방지 (새로운 이미지 강제 로드)
     const timestamp = new Date().getTime();
     profileImage.src = `${imageUrl}?t=${timestamp}`;
 
-    console.log("✅ 프로필 이미지 업데이트됨:", profileImage.src);
+    console.log("프로필 이미지 업데이트됨:", profileImage.src);
 }
 
 
@@ -490,7 +495,7 @@ document.getElementById("uploadImgBtn").addEventListener("click", function () {
             if (!response.ok) throw new Error("이미지 업로드 실패");
 
             const { profileImageUrl } = await response.json();
-            updateProfileImage(profileImageUrl);  // ✅ 수정된 함수 호출
+            updateProfileImage(profileImageUrl);  //수정된 함수 호출
 
             alert("이미지 업로드 완료!");
 
@@ -523,7 +528,7 @@ document.getElementById("removeImgBtn").addEventListener("click", async function
 
         alert("프로필 이미지가 제거되었습니다.");
 
-        // ✅ 기본 프로필 이미지로 변경
+        // 기본 프로필 이미지로 변경
         updateProfileImage("/uploads/no-intro.png");
 
     } catch (error) {
