@@ -2,14 +2,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     await fetchUserProfile();
 
 
-    const socialInputs = document.getElementById("socialInputs");
-    if (!socialInputs) {
-        console.error("🚨 socialInputs 요소가 존재하지 않습니다!");
-    } else {
-        console.log("✅ socialInputs 요소가 정상적으로 로드되었습니다.");
-    }
-
-
     //모든 모달 숨기기
     document.querySelectorAll(".modal").forEach(modal => {
         modal.classList.add("hidden");
@@ -19,13 +11,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     
     document.addEventListener("click", function (event) {
+        const target = event.target.dataset.target;
+
         if (event.target.classList.contains("edit-btn")) {
-            const target = event.target.dataset.target;
             toggleEditMode(target, event.target);
         }
 
         if (event.target.classList.contains("save-btn")) {
-            const target = event.target.dataset.target;
             saveProfileUpdate(target, event.target);
         }
 
@@ -65,8 +57,9 @@ async function fetchUserProfile() {
         if (!response.ok) throw new Error("사용자 정보를 불러오는 데 실패했습니다.");
 
         const user = await response.json();
-        localStorage.setItem("email", user.email);  // ✅ 이메일 저장 추가
+        localStorage.setItem("email", user.email);  // 이메일 저장 추가
         updateProfileUI(user);
+
     } catch (error) {
         console.error("프로필 로드 오류:", error);
         alert("프로필 정보를 불러올 수 없습니다.");
@@ -88,10 +81,7 @@ function updateProfileUI(user) {
     document.getElementById("bio").textContent = user.bio || "안녕하세요!";
     document.getElementById("edit-bio").value = user.bio || "안녕하세요!";
 
-    if (user.profileImage) {
-        document.getElementById("profileImage").src = user.profileImage;
-    }
-
+    updateProfileImage(user.profileImage);
     document.getElementById("blogTitle").textContent = `${user.username} .log`;
 }
 
@@ -99,30 +89,47 @@ function updateProfileUI(user) {
 function toggleEditMode(target, button) {
     console.log("토글 대상:", target);
 
-    if (target === "email") {
-        showPasswordConfirmModal();
-        return;
-    }
-
-    if (target === "password") {
-        showPasswordChangeModal();
-        return;
-    }
-
     const textElement = document.getElementById(target);
     const inputElement = document.getElementById(`edit-${target}`);
     const saveButton = document.querySelector(`.save-btn[data-target="${target}"]`);
+
 
     if (!textElement || !inputElement || !saveButton) {
         console.error("요소를 찾을 수 없음:", target);
         return;
     }
 
-    textElement.classList.add("hidden");
-    inputElement.classList.remove("hidden");
-    saveButton.classList.remove("hidden");
-    button.classList.add("hidden");
+    // 편집 모드 전환
+    if (textElement.classList.contains("hidden")) {
+        // 편집 취소 (input 숨기고 기존 텍스트 표시)
+        textElement.classList.remove("hidden");
+        inputElement.classList.add("hidden");
+        saveButton.classList.add("hidden");
+        button.textContent = "수정";
+    } else {
+        // 수정 모드 (기존 텍스트 숨기고 input 보이기)
+        textElement.classList.add("hidden");
+        inputElement.classList.remove("hidden");
+        saveButton.classList.remove("hidden");
+        button.textContent = "취소";
+    }
+
+    // 이메일 수정 시 비밀번호 확인 모달 열기
+    if (target === "email") {
+        showPasswordConfirmModal();
+        return;
+    }
+
+    // 비밀번호 변경 모달
+    if (target === "password") {
+        showPasswordChangeModal();
+        return;
+    }
 }
+
+
+
+
 
 // 모달 열기/닫기 함수
 function openModal(modalId) {
@@ -145,12 +152,14 @@ function closeModal(modalId) {
     modal.style.display = "none";  // 모달을 숨김
 }
 
+
+
 // 이메일 변경 시 비밀번호 확인 모달 표시
 function showPasswordConfirmModal() {
     openModal("password-confirm-modal");
 }
 
-document.getElementById("password-cancel-btn").addEventListener("click", function () {
+document.getElementById("password-confirm-cancel-btn").addEventListener("click", function () {
     closeModal("password-confirm-modal");
 });
 
@@ -159,7 +168,7 @@ function showPasswordChangeModal() {
     openModal("password-change-modal");
 }
 
-document.getElementById("password-change-cancel-btn").addEventListener("click", function () {
+    document.getElementById("password-cancel-btn").addEventListener("click", function () {
     closeModal("password-change-modal");
 });
 
@@ -305,7 +314,7 @@ function saveSocialInfo() {
 async function saveProfileUpdate(field, button, currentPassword = null) {
     const token = localStorage.getItem("jwtToken")?.replace(/\"/g, "").trim();
     const inputElement = document.getElementById(`edit-${field}`);
-    const value = inputElement ? inputElement.value.trim() : null;
+    const textElement = document.getElementById(field);
     const email = localStorage.getItem("email");
 
     if (!token) {
@@ -318,6 +327,8 @@ async function saveProfileUpdate(field, button, currentPassword = null) {
         alert("사용자 이메일을 찾을 수 없습니다.");
         return;
     }
+
+    const value = inputElement ? inputElement.value.trim() : null;
 
     console.log("🔍 업데이트 요청 데이터:", { email, field, value, currentPassword });
 
@@ -333,8 +344,6 @@ async function saveProfileUpdate(field, button, currentPassword = null) {
         };
     }
 
-    console.log("🔍 업데이트 요청 데이터:", updatedData);
-
     try {
         const response = await fetch(apiUrl, {
             method: "PUT",
@@ -348,6 +357,17 @@ async function saveProfileUpdate(field, button, currentPassword = null) {
         if (!response.ok) throw new Error(await response.text());
 
         alert("업데이트 성공", await response.text());
+
+        // 🔹 성공적으로 업데이트되면 UI를 원래대로 변경
+        textElement.textContent = value; // 새로운 값으로 업데이트
+        inputElement.classList.add("hidden"); // input 숨기기
+        textElement.classList.remove("hidden"); // 텍스트 보이기
+
+        const saveButton = document.querySelector(`.save-btn[data-target="${field}"]`);
+        const editButton = document.querySelector(`.edit-btn[data-target="${field}"]`);
+
+        saveButton.classList.add("hidden"); // 저장 버튼 숨기기
+        editButton.classList.remove("hidden"); // 수정 버튼 다시 보이게 하기
 
         if (field === "email") {
             localStorage.setItem("email", value);
@@ -416,3 +436,98 @@ async function savePasswordUpdate(currentPassword, newPassword) {
 
 
 
+function updateProfileImage(profileImageUrl) {
+    const profileImage = document.getElementById("profileImage");
+
+    if (!profileImageUrl || profileImageUrl.trim() === "") {
+        console.warn("🚨 프로필 이미지가 없습니다. 기본 이미지로 설정.");
+        profileImage.src = "http://localhost:8080/uploads/no-intro.png"; // 기본 이미지
+        return;
+    }
+
+    // ✅ 서버에서 받은 URL이 상대 경로인지 확인 후 절대 경로로 변환
+    let imageUrl = profileImageUrl.startsWith("/uploads/")
+        ? `http://localhost:8080${profileImageUrl}`
+        : `http://localhost:8080/uploads/${profileImageUrl}`;
+
+    // ✅ 캐시 문제 방지 (새로운 이미지 강제 로드)
+    const timestamp = new Date().getTime();
+    profileImage.src = `${imageUrl}?t=${timestamp}`;
+
+    console.log("✅ 프로필 이미지 업데이트됨:", profileImage.src);
+}
+
+
+
+
+
+document.getElementById("uploadImgBtn").addEventListener("click", function () {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+
+    fileInput.addEventListener("change", async function () {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const token = localStorage.getItem("jwtToken")?.replace(/\"/g, "").trim();
+
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:8080/api/members/upload-profile-image", {  
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}` },
+                body: formData
+            });
+
+            if (!response.ok) throw new Error("이미지 업로드 실패");
+
+            const { profileImageUrl } = await response.json();
+            updateProfileImage(profileImageUrl);  // ✅ 수정된 함수 호출
+
+            alert("이미지 업로드 완료!");
+
+        } catch (error) {
+            console.error("이미지 업로드 오류:", error);
+            alert("이미지 업로드 실패!");
+        }
+    });
+
+    fileInput.click();
+});
+
+
+
+document.getElementById("removeImgBtn").addEventListener("click", async function () {
+    const token = localStorage.getItem("jwtToken")?.replace(/\"/g, "").trim();
+
+    if (!token) {
+        alert("로그인이 필요합니다.");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:8080/api/members/remove-profile-image", {
+            method: "PUT",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error("프로필 이미지 제거 실패!");
+
+        alert("프로필 이미지가 제거되었습니다.");
+
+        // ✅ 기본 프로필 이미지로 변경
+        updateProfileImage("/uploads/no-intro.png");
+
+    } catch (error) {
+        console.error("프로필 이미지 제거 오류:", error);
+        alert("이미지 제거 실패!");
+    }
+});

@@ -17,8 +17,8 @@
         <div class="profile-card">
             <div class="profile-img">
                 <img src="images/no-intro.png" alt="프로필 이미지" id="profileImage">
-                <button id="uploadBtn">이미지 업로드</button>
-                <button id="removeBtn">이미지 제거</button>
+                <button id="uploadImgBtn">이미지 업로드</button>
+                <button id="removeImgBtn">이미지 제거</button>
             </div>
             
             <div class="profile-info">
@@ -61,7 +61,7 @@
                     <p id="github-text">Github: 없음</p>
                     <p id="twitter-text">Twitter: 없음</p>
                     <p id="website-text">Website: 없음</p>
-                    <button id="editSocialInfo">수정</button>
+                    <button class = "edit-btn" id="editSocialInfo">수정</button>
                 </div>
             
                 <div id="socialInputs" class="hidden"></div>
@@ -86,7 +86,7 @@
                 <input type="password" id="new-password" placeholder="새 비밀번호 입력">
                 <input type="password" id="confirm-new-password" placeholder="새 비밀번호 확인">
                 <button id="password-change-btn">비밀번호 변경</button>
-                <button onclick="closeModal('password-change-modal')">취소</button>
+                <button id = "password-cancel-btn" onclick="closeModal('password-change-modal')">취소</button>
             </div>
         </div>
     </div>
@@ -97,7 +97,7 @@
             <h2>비밀번호 확인</h2>
             <input type="password" id="password-confirm-input" placeholder="현재 비밀번호 입력">
             <button id="password-confirm-btn">확인</button>
-            <button onclick="closeModal('password-confirm-modal')">취소</button>
+            <button id = "password-confirm-cancel-btn" onclick="closeModal('password-confirm-modal')">취소</button>
         </div>
     </div>
 
