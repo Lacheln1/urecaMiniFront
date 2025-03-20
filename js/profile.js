@@ -8,6 +8,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         modal.style.display = "none";
     });
 
+    if (document.getElementById("password-confirm-btn")) {
+        document.getElementById("password-confirm-btn").addEventListener("click", confirmPasswordForEmailChange);
+    }
+
+    if (document.getElementById("password-change-btn")) {
+        document.getElementById("password-change-btn").addEventListener("click", changePassword);
+    }
+
 
     
     document.addEventListener("click", function (event) {
@@ -15,6 +23,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         if (event.target.classList.contains("edit-btn")) {
             toggleEditMode(target, event.target);
+        }
+
+        if (event.target.classList.contains("save-btn")) {
+            saveProfileUpdate(target);
         }
 
         if (event.target.id === "editSocialInfo") {
@@ -74,15 +86,45 @@ function updateProfileUI(user) {
         return;
     }
 
-    document.getElementById("username").textContent = user.username;
-    document.getElementById("edit-username").value = user.username;
-    document.getElementById("email").textContent = user.email;
-    document.getElementById("edit-email").value = user.email;
-    document.getElementById("bio").textContent = user.bio || "안녕하세요!";
-    document.getElementById("edit-bio").value = user.bio || "안녕하세요!";
+    function safeUpdate(id, value) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = value;
+        } else {
+            console.warn(`🚨 요소를 찾을 수 없음: ${id}`);
+        }
+    }
+
+    function safeInput(id, value) {
+        const inputElement = document.getElementById(id);
+        if (inputElement) {
+            inputElement.value = value;
+        } else {
+            console.warn(`🚨 입력 요소를 찾을 수 없음: ${id}`);
+        }
+    }
+
+    safeUpdate("username", user.username);
+    safeInput("edit-username", user.username);
+    safeUpdate("email", user.email);
+    safeInput("edit-email", user.email);
+    safeUpdate("bio", user.bio || "안녕하세요!");
+    safeInput("edit-bio", user.bio || "안녕하세요!");
+
+    safeUpdate("github-link", user.github || "없음");
+    safeUpdate("twitter-link", user.twitter || "없음");
+    safeUpdate("website-link", user.website || "없음");
+
+    safeInput("edit-github", user.github || "");
+    safeInput("edit-twitter", user.twitter || "");
+    safeInput("edit-website", user.website || "");
 
     updateProfileImage(user.profileImage);
-    document.getElementById("blogTitle").textContent = `${user.username} .log`;
+
+    const blogTitle = document.getElementById("blogTitle");
+    if (blogTitle) {
+        blogTitle.textContent = `${user.username} .log`;
+    }
 }
 
 // 편집 모드 토글
@@ -132,14 +174,6 @@ function toggleEditMode(target, button) {
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".save-btn").forEach(button => {
-        button.addEventListener("click", function (event) {
-            const target = event.target.dataset.target;
-            saveProfileUpdate(target, event.target);
-        });
-    });
-});
 
 
 
@@ -247,18 +281,18 @@ function showSocialInputs() {
 
     // 입력 필드 HTML 추가
     socialInputs.innerHTML = `
-        <input type="text" id="edit-github" placeholder="Github 계정">
-        <input type="text" id="edit-twitter" placeholder="Twitter 계정">
-        <input type="text" id="edit-website" placeholder="Website">
+        <input type="text" id="edit-github" value="${document.getElementById("github-link").textContent !== '없음' ? document.getElementById("github-link").textContent : ''}" placeholder="Github 계정">
+        <input type="text" id="edit-twitter" value="${document.getElementById("twitter-link").textContent !== '없음' ? document.getElementById("twitter-link").textContent : ''}" placeholder="Twitter 계정">
+        <input type="text" id="edit-website" value="${document.getElementById("website-link").textContent !== '없음' ? document.getElementById("website-link").textContent : ''}" placeholder="Website">
         <div class="button-group">
             <button id="cancelSocialInfo" class="edit-btn">취소</button>
             <button id="saveSocialInfo" class="save-btn">저장</button>
         </div>
-        
     `;
 
-    // 입력 필드 보이기
     socialInputs.classList.remove("hidden");
+    document.getElementById("cancelSocialInfo").addEventListener("click", cancelSocialEdit);
+
 }
 
 function cancelSocialEdit() {
@@ -268,7 +302,7 @@ function cancelSocialEdit() {
 
 
 
-function saveSocialInfo() {
+async function saveSocialInfo() {
     const token = localStorage.getItem("jwtToken")?.replace(/\"/g, "").trim();
     const email = localStorage.getItem("email");
 
@@ -278,41 +312,45 @@ function saveSocialInfo() {
         return;
     }
 
-    const github = document.getElementById("edit-github")?.value.trim() || "";
-    const twitter = document.getElementById("edit-twitter")?.value.trim() || "";
-    const website = document.getElementById("edit-website")?.value.trim() || "";
+    const github = document.getElementById("edit-github").value.trim();
+    const twitter = document.getElementById("edit-twitter").value.trim();
+    const website = document.getElementById("edit-website").value.trim();
 
-    const updatedData = { email, github, twitter, website };
+    // ✅ 공백 입력 시 기존 값 유지 (없으면 "없음" 표시)
+    const updatedData = {
+        email,
+        github: github || document.getElementById("github-link").textContent,
+        twitter: twitter || document.getElementById("twitter-link").textContent,
+        website: website || document.getElementById("website-link").textContent
+    };
 
-    fetch("http://localhost:8080/api/members/update", {
-        method: "PUT",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(updatedData)
-    })
-    .then(response => {
+    try {
+        const response = await fetch("http://localhost:8080/api/members/updateSocialInfo", {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedData)
+        });
+
         if (!response.ok) throw new Error("소셜 정보 업데이트 실패");
-        return response.text();
-    })
-    .then(data => {
-        alert("소셜 정보가 성공적으로 업데이트되었습니다.");
 
-        document.getElementById("socialInfoText").innerHTML = `
-            <p>Github: ${github || "없음"}</p>
-            <p>Twitter: ${twitter || "없음"}</p>
-            <p>Website: ${website || "없음"}</p>
-            <button id="editSocialInfo" class="edit-btn">수정</button>
-        `;
+        alert("소셜 정보가 성공적으로 업데이트되었습니다.");
+        fetchUserProfile(); // UI 갱신
+
+        // ✅ UI 업데이트 (없으면 "없음" 표시)
+        document.getElementById("github-link").textContent = github || "없음";
+        document.getElementById("twitter-link").textContent = twitter || "없음";
+        document.getElementById("website-link").textContent = website || "없음";
 
         document.getElementById("socialInputs").classList.add("hidden");
         document.getElementById("socialInfoText").classList.remove("hidden");
-    })
-    .catch(error => {
+
+    } catch (error) {
         console.error("❌ 소셜 정보 업데이트 오류:", error);
         alert("업데이트 실패: " + error.message);
-    });
+    }
 }
 
 
@@ -324,73 +362,77 @@ function saveSocialInfo() {
 
 
 // 프로필 업데이트 (비밀번호 변경 지원)
-async function saveProfileUpdate(field, button, currentPassword = null) {
+async function saveProfileUpdate(target) {
+    console.log(`🔵 ${target} 저장 요청 시작`);
+
     const token = localStorage.getItem("jwtToken")?.replace(/\"/g, "").trim();
-    const inputElement = document.getElementById(`edit-${field}`);
-    const textElement = document.getElementById(field);
     const email = localStorage.getItem("email");
 
-    if (!token) {
+    if (!token || !email) {
         alert("로그인이 필요합니다.");
         window.location.href = "/login.html";
         return;
     }
 
-    if (!email) {
-        alert("사용자 이메일을 찾을 수 없습니다.");
+    const inputElement = document.getElementById(`edit-${target}`);
+    const textElement = document.getElementById(target);
+    const saveButton = document.querySelector(`.save-btn[data-target="${target}"]`);
+    const editButton = document.querySelector(`.edit-btn[data-target="${target}"]`);
+
+    if (!inputElement || !textElement || !saveButton || !editButton) {
+        console.error(`❌ 저장할 요소를 찾을 수 없음: ${target}`);
         return;
     }
 
-    const value = inputElement ? inputElement.value.trim() : null;
+    const updatedValue = inputElement.value.trim();
 
-    console.log("🔍 업데이트 요청 데이터:", { email, field, value, currentPassword });
+    if (!updatedValue) {
+        alert("내용을 입력해주세요.");
+        return;
+    }
 
-    let apiUrl = "http://localhost:8080/api/members/update";
-    let updatedData = { email: email, [field]: value };
+    const requestData = {
+        email: email
+    };
 
-    if (field === "email") {
-        apiUrl = "http://localhost:8080/api/members/update-email";
-        updatedData = {
-            email: email,
-            newEmail: value,
-            currentPassword: document.getElementById("password-confirm-input").value.trim(),
-        };
+    if (target === "username") {
+        requestData.username = updatedValue;
+    } else if (target === "bio") {
+        requestData.bio = updatedValue;
     }
 
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch("http://localhost:8080/api/members/update-profile", {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(updatedData)
+            body: JSON.stringify(requestData)
         });
 
-        if (!response.ok) throw new Error(await response.text());
-
-        alert("업데이트 성공", await response.text());
-
-        // 🔹 성공적으로 업데이트되면 UI를 원래대로 변경
-        textElement.textContent = value; // 새로운 값으로 업데이트
-        inputElement.classList.add("hidden"); // input 숨기기
-        textElement.classList.remove("hidden"); // 텍스트 보이기
-
-        const saveButton = document.querySelector(`.save-btn[data-target="${field}"]`);
-        const editButton = document.querySelector(`.edit-btn[data-target="${field}"]`);
-
-        saveButton.classList.add("hidden"); // 저장 버튼 숨기기
-        editButton.classList.remove("hidden"); // 수정 버튼 다시 보이게 하기
-
-        if (field === "email") {
-            localStorage.setItem("email", value);
+        if (!response.ok) {
+            throw new Error("서버 업데이트 실패");
         }
 
+        console.log(`✅ ${target} 저장 성공`);
+
+        // UI 업데이트
+        textElement.textContent = updatedValue;
+        textElement.classList.remove("hidden");
+        inputElement.classList.add("hidden");
+
+        // 버튼 업데이트: 저장 버튼 숨기고 수정 버튼 다시 표시
+        saveButton.classList.add("hidden");
+        editButton.classList.remove("hidden");
+        editButton.textContent = "수정"; // 원래대로 복구
+
     } catch (error) {
-        console.error("업데이트 오류:", error);
-        alert("업데이트 실패: " + error.message);
+        console.error(`❌ ${target} 업데이트 오류:`, error);
+        alert(`업데이트 실패: ${error.message}`);
     }
 }
+
 
 async function changePassword() {
     const currentPassword = document.getElementById("current-password").value.trim();
