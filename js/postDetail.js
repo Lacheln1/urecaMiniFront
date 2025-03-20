@@ -60,6 +60,44 @@ window.onload = async () => {
         let response = await axios.get(`http://localhost:8080/getPostDetail/${postId}`);
         let post = response.data;
 
+        if (username == post.username) {
+            const editBtn = document.createElement("button");
+            const deleteBtn = document.createElement("button");
+
+            editBtn.classList.add("edit-btn");
+            deleteBtn.classList.add("delete-btn");
+            
+            // edit-layout과 delete-layout 클래스를 가진 요소들을 가져옴
+            const editLayout = document.getElementsByClassName("edit-layout");
+            const deleteLayout = document.getElementsByClassName("delete-layout");
+        
+            editBtn.textContent = "수정";
+            deleteBtn.textContent = "삭제";
+        
+            // editLayout과 deleteLayout이 존재하는지 확인 후 추가
+            if (editLayout.length > 0) {
+                editLayout[0].appendChild(editBtn);
+            }
+        
+            if (deleteLayout.length > 0) {
+                deleteLayout[0].appendChild(deleteBtn);
+            }
+
+            deleteBtn.addEventListener("click",async ()=>{
+                const checkDelete = confirm("정말로 포스트를 삭제하시겠습니까?");
+                if(checkDelete==true){
+                    await axios.delete(`http://localhost:8080/deletePost/${postId}`);
+                    alert("삭제 되었습니다!");
+                    window.location.href = "/";
+                }
+            })
+
+            editBtn.addEventListener("click",async()=>{
+                window.location.href = `../editPost.html?id=${postId}`;
+               
+            })
+        }
+
         // 게시글 내용 반영
         document.querySelector(".post-title").textContent = post.title;
         document.querySelector(".author").textContent = post.username;
@@ -114,4 +152,12 @@ window.onload = async () => {
         alert("게시글을 불러올 수 없습니다.");
         window.location.href = "/";
     }
+
+    document.getElementById("cancelBtn").addEventListener("click",async ()=>{
+        const checkCancel = confirm("작성을 그만두고 나가시겠습니까?");
+        if(checkCancel==true){
+            window.location.href = "/";
+            window.history.back();
+        }
+    })
 };
