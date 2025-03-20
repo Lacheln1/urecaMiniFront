@@ -132,6 +132,14 @@ function toggleEditMode(target, button) {
 }
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".save-btn").forEach(button => {
+        button.addEventListener("click", function (event) {
+            const target = event.target.dataset.target;
+            saveProfileUpdate(target, event.target);
+        });
+    });
+});
 
 
 
