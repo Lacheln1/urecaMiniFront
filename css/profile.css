@@ -39,7 +39,7 @@ body {
 
 /* 프로필 컨테이너 */
 .profile-container {
-    max-width: 700px;
+    max-width: 800px;
     margin: 40px auto;
     padding: 20px;
 }
@@ -140,13 +140,6 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* 설정 아이템 정렬 */
-.setting-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
 
 /* 이메일 설정을 한 줄로 맞춤 */
 .input-group {
@@ -169,11 +162,58 @@ body {
 }
 
 /* 소셜 정보 및 비밀번호 변경 버튼 정렬 */
-.setting-item {
+/* 설정 제목 스타일 */
+.setting-item h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    padding-left: 5px;
+    border-left: 4px solid #12b886;  /* 초록색 강조선 추가 */
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
+
+/* 설정 아이템 레이아웃 정리 */
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* 이메일 등 텍스트 스타일 */
+.setting-item p {
+    font-size: 14px;
+    color: #555;
+    background: #f5f5f5;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 150px;
+}
+
+/* 버튼 스타일 */
+.setting-item button {
+    background-color: #12b886;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.setting-item button:hover {
+    background-color: #0fa678;
+}
+
 
 #socialInfoText {
     display: flex;
@@ -221,48 +261,152 @@ body {
 }
 
 /* 모달 스타일 */
-.modal {
+#password-change-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: 999;
 }
 
-.modal-content {
+/* 모달 박스 */
+#password-change-modal .modal-content {
     background: white;
-    padding: 20px;
+    padding: 25px;
+    border-radius: 12px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 모달 제목 */
+#password-change-modal h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* 입력 필드 스타일 */
+#password-change-modal input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* 버튼 컨테이너 */
+#password-change-modal .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* 비밀번호 변경 버튼 */
+#password-change-btn {
+    flex: 1;
+    background-color: #12b886;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#password-change-btn:hover {
+    background-color: #0fa678;
+}
+
+/* 취소 버튼 */
+#password-cancel-btn {
+    flex: 1;
+    margin-top : 5px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#password-cancel-btn:hover {
+    background-color: #d93737;
+}
+
+#password-confirm-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px;
     border-radius: 10px;
-    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 320px;
+    max-height: 250px;
     text-align: center;
 }
 
-.modal input {
-    width: 90%;
-    padding: 8px;
-    margin: 5px 0;
+#password-confirm-modal h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+
+}
+#password-confirm-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    margin-bottom: 15px;
 }
 
-.modal button {
+/* 🔹 버튼 컨테이너 (가로 정렬) */
+#password-confirm-modal .button-group {
+    display: flex;
+    justify-content: space-between; /* 🔥 버튼을 양쪽으로 정렬 */
+    gap: 10px; /* 버튼 간격 */
     margin-top: 10px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
-#password-confirm-btn, #password-change-btn {
+/* 🔹 확인 및 취소 버튼 */
+#password-confirm-btn, 
+#password-confirm-cancel-btn {
+    flex: 1;  /* 🔥 두 버튼이 동일한 너비를 갖도록 설정 */
     background-color: #12b886;
+    width: 48%;
     color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-button[onclick^="closeModal"] {
+/* 🔹 취소 버튼 색상 */
+#password-confirm-cancel-btn {
     background-color: #ef4444;
-    color: white;
+}
+
+/* 🔹 버튼 호버 효과 */
+#password-confirm-btn:hover {
+    background-color: #0fa678;
+}
+
+#password-confirm-cancel-btn:hover {
+    background-color: #d93737;
 }
