@@ -11,6 +11,7 @@ document.getElementById("postBtn").addEventListener("click",async()=>{
         const response = await axios.post("http://localhost:8080/insertPost",data);
         console.log(response);
         alert("게시 완료");
+        document.getElementById("output").innerHTML = content.replace(/\n/g, "<br>");
         window.location.href = "../index.html";
     } catch(error){
         alert("발간 실패하였습니다",error);
@@ -23,3 +24,8 @@ document.getElementById("cancelBtn").addEventListener("click",async ()=>{
         window.location.href = "/";
     }
 })
+
+function convertText(){
+    let text = document.getElementById("content").value;
+    document.getElementById("output").innerHTML = text.replace(/\n/g, "<br>");
+}

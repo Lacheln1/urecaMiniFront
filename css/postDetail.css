@@ -108,3 +108,8 @@ body {
     border: none;
     cursor: pointer;
 }
+
+textarea {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
