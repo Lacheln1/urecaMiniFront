@@ -1,9 +1,10 @@
 window.onload = async () => {
-    let response = await axios.get("http://localhost:8080/getAllPosts");
     await syncProfileImages();
+    let response = await axios.get("http://localhost:8080/getAllPosts");
+    
     console.log(response);
     let postList = response.data;
-  
+    
     let postListDiv = ``;
   
     postList.forEach((item) => {
@@ -48,7 +49,7 @@ window.onload = async () => {
   async function syncProfileImages() {
     try {
         let response = await axios.put("http://localhost:8080/syncProfileImages");
-        console.log(response.data);
+        console.log("갱신됐음");
     } catch (error) {
         console.error("Error syncing profile images", error);
     }
