@@ -99,6 +99,8 @@ function updateProfileUI(user) {
         const inputElement = document.getElementById(id);
         if (inputElement) {
             inputElement.value = value;
+    
+
         } else {
             console.warn(`🚨 입력 요소를 찾을 수 없음: ${id}`);
         }
@@ -393,16 +395,32 @@ async function saveProfileUpdate(target) {
 
     const requestData = {
         email: email
+        
     };
 
     if (target === "username") {
         requestData.username = updatedValue;
     } else if (target === "bio") {
         requestData.bio = updatedValue;
+    } else if (target === "email") {
+        const currentPassword = document.getElementById("password-confirm-input")?.value.trim();
+
+        if (!currentPassword) {
+            alert("비밀번호를 입력해주세요.");
+            return;
+        }
+
+        requestData.newEmail = updatedValue;
+        requestData.currentPassword = currentPassword;  // 🔥 currentPassword 추가
     }
 
     try {
-        const response = await fetch("http://localhost:8080/api/members/update-profile", {
+
+        const endpoint = target === "email" 
+            ? "http://localhost:8080/api/members/update-email" 
+            : "http://localhost:8080/api/members/update-profile";
+
+        const response = await fetch(endpoint, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -426,6 +444,12 @@ async function saveProfileUpdate(target) {
         saveButton.classList.add("hidden");
         editButton.classList.remove("hidden");
         editButton.textContent = "수정"; // 원래대로 복구
+
+        if (target === "email") {
+            localStorage.setItem("email", updatedValue);
+            alert("이메일이 변경되었습니다. 다시 로그인해주세요.");
+            window.location.href = "/index.html"; // 이메일 변경 후 로그인 페이지로 이동
+        }
 
     } catch (error) {
         console.error(`❌ ${target} 업데이트 오류:`, error);
