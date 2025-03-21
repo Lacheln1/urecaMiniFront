@@ -51,6 +51,6 @@ window.onload = async () => {
         let response = await axios.put("http://localhost:8080/syncProfileImages");
         console.log("갱신됐음");
     } catch (error) {
-        console.error("Error syncing profile images", error);
+        console.error("갱신실패", error);
     }
 }

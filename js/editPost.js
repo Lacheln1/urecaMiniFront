@@ -1,5 +1,5 @@
 window.onload = async () => {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search); //window.location.search : 현재 url
     const postId = urlParams.get("id");
 
     if (!postId) {
@@ -33,7 +33,7 @@ window.onload = async () => {
         try{
             const response = await axios.put(`http://localhost:8080/updatePost/${postId}`,data);
             console.log(response);
-            alert("완료");
+            alert("게시 완료");
             window.location.href = "../index.html";
         } catch(error){
             alert("발간 실패하였습니다",error);
